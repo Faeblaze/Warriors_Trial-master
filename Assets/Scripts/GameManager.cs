@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum Gamestate
 {
@@ -26,19 +27,53 @@ public class GameManager : MonoBehaviour
 
     public Difficulty difficulty;
     public Gamestate gameState;
-        
 
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start()
     {
         difficulty = Difficulty.MEDIUM;
         gameState = Gamestate.TITLE;
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    }
+
+    void Update()
     {
-		
-	}
+        timer -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            LoadNewScene();
+        if (Input.GetKeyDown(KeyCode.R))
+            CycleDifficulty();
+    }
+    void LoadNewScene()
+    {
+        SceneManager.LoadScene("SceneTwo");
+    }
+
+    void CycleDifficulty()
+    {
+        switch (difficulty)
+        {
+            case Difficulty.EASY:
+                difficulty = Difficulty.MEDIUM;
+                break;
+            case Difficulty.MEDIUM:
+                difficulty = Difficulty.HARD;
+                break;
+            case Difficulty.HARD:
+                difficulty = Difficulty.HELL;
+                break;
+            case Difficulty.HELL:
+                difficulty = Difficulty.GODMODE;
+                break;
+            case Difficulty.GODMODE:
+                difficulty = Difficulty.EASY;
+                break;
+            default:
+                difficulty = Difficulty.EASY;
+                break;
+
+        }
+    }
 }
