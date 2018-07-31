@@ -6,6 +6,19 @@ using System;
 
 public class Player : MonoBehaviour
 {
+
+    public int health;
+    public int powerLevel;
+    int damage = 20;
+
+
+    public void SetDefaultLevels(int _health, int _powerLevel)
+    {
+        health = _health;
+        powerLevel = _powerLevel;
+    }
+
+
     private Animator animator;//You may not need an animator, but if so declare it here 
 
     int noOfClicks; //Determines Which Animation Will Play
@@ -18,6 +31,8 @@ public class Player : MonoBehaviour
 
         noOfClicks = 0;
         canClick = true;
+
+        print (health);
     }
 
     void Update()
@@ -71,7 +86,19 @@ public class Player : MonoBehaviour
             canClick = true;
             noOfClicks = 0;
         }
+                
     }
+    void OnCollisionEnter (Collision _collision)
+    {
+        if (_collision.gameObject.tag == "Weapon")
+        {
+            health -= damage;
+            print("ouch that hurt" + health);
+        }
+
+    }
+
+
 
 
 
