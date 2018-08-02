@@ -60,4 +60,17 @@ public class Enemy_Class : MonoBehaviour
 
         }
     }
+
+    void Start()
+    {
+        health = 10;
+        powerLevel = 100;
+    }
+
+    // Gets called every frame
+    void Update()
+    {
+        if (health <= 0)
+            Destroy(gameObject);
+    }
 }

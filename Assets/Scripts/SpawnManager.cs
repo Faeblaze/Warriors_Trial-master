@@ -38,4 +38,13 @@ public class SpawnManager : MonoBehaviour {
             yield return new WaitForSeconds(spawnWait);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+
+
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawWireCube(transform.position - new Vector3(0, transform.position.y - 1, 0), spawnValues - new Vector3(0, spawnValues.y, 0));
+    }
 }

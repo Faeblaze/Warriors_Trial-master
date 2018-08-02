@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public int health;
     public int powerLevel;
-    int damage = 20;
+    public int damage = 20;
 
 
     public void SetDefaultLevels(int _health, int _powerLevel)
@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
     }
 
 
-    private Animator animator;//You may not need an animator, but if so declare it here 
+    [NonSerialized]
+    public Animator animator;//You may not need an animator, but if so declare it here 
 
     int noOfClicks; //Determines Which Animation Will Play
     bool canClick; //Locks ability to click during animation event
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
 
         if (noOfClicks == 1)
         {
-            animator.SetTrigger("swing");
+            animator.SetTrigger("Attack");
         }
     }
 
@@ -88,15 +89,15 @@ public class Player : MonoBehaviour
         }
                 
     }
-    void OnCollisionEnter (Collision _collision)
+   /* void OnCollisionEnter (Collision _collision)
     {
         if (_collision.gameObject.tag == "Weapon")
         {
             health -= damage;
             print("ouch that hurt" + health);
         }
-
-    }
+        
+    }  */
 
 
 
