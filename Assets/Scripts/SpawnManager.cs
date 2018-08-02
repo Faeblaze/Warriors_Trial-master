@@ -39,6 +39,7 @@ public class SpawnManager : MonoBehaviour {
         }
     }
 
+    // adds the visual box around the area in which enemies can spawn
     private void OnDrawGizmos()
     {
 

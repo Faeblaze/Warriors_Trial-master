@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 {
 
     public int health;
+    [NonSerialized]
+    public int maxHealth;
     public int powerLevel;
     public int damage = 20;
 
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
         noOfClicks = 0;
         canClick = true;
 
-        print (health);
+        maxHealth = health;
     }
 
     void Update()
