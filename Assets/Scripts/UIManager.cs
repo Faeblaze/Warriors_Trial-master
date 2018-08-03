@@ -6,9 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour {
 
+    // This will be inherited by outside scripts.
+    public static UIManager instance;
+
     private Player player;
     private SpawnManager Sawning;
-    public static int enemiesKilled;
+    public int enemiesKilled;
 
     public RectTransform healthBarBackground;
     public RectTransform healthBar;
@@ -19,6 +22,9 @@ public class UIManager : MonoBehaviour {
     public GameObject Quit;
 
 	void Awake () {
+
+        instance = this;
+
         player = (Player)FindObjectOfType(typeof(Player));
 
         healthText = healthBarBackground.GetComponentInChildren<Text>();
@@ -26,6 +32,7 @@ public class UIManager : MonoBehaviour {
         Quit.SetActive(false);
         Win.SetActive(false);
         enemiesKilled = 0;
+        Time.timeScale = 1;
     }
 	
 	// Update is called once per frame

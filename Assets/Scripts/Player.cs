@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
         {
             UIMenuButton.SetActive(true);          
             UIbutton2.SetActive(true);
+            UIManager.instance.Quit.SetActive(true);
             Time.timeScale = 0;
         }
             // SceneManager.LoadScene("WK9v3");
