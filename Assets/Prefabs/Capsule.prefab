@@ -188,13 +188,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: DOMINIONS
-  maxHealth: 100
+  maxHealth: 250
   powerLevel: 10
   height: 2
   weight: 50
   sex: 109
-  mySpeed: 1
-  damageSpeed: 2
+  mySpeed: 5
+  damageSpeed: 0.75
 --- !u!114 &114622772018152212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1ddd3d36430b8489ed97526610bfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  f_RotSpeed: 5
+  f_MoveSpeed: 5
 --- !u!136 &136462670359319502
 CapsuleCollider:
   m_ObjectHideFlags: 1

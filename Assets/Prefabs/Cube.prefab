@@ -200,12 +200,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: 
-  maxHealth: 100
+  maxHealth: 150
   powerLevel: 0
   height: 0
   weight: 0
   sex: 0
-  mySpeed: 0
+  mySpeed: 3
   damageSpeed: 2
 --- !u!114 &114114214511166470
 MonoBehaviour:
@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1ddd3d36430b8489ed97526610bfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  f_RotSpeed: 2.5
+  f_MoveSpeed: 2.5
 --- !u!212 &212087030044285532
 SpriteRenderer:
   m_ObjectHideFlags: 1

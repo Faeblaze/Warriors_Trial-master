@@ -91,6 +91,11 @@ public class Enemy_Class : MonoBehaviour
         health -= (float)damage / maxHealth;
 
         if (health < 0F)
+        {
             health = 0F;
+            UIManager.enemiesKilled++;
+            Debug.Log(UIManager.enemiesKilled);
+        }
     }
+
 }

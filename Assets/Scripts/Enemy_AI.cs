@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy_AI : MonoBehaviour
 {
     Transform tr_Player;
-    float f_RotSpeed = 1.0f, f_MoveSpeed = 1.0f;
+   public float f_RotSpeed = 1.0f, f_MoveSpeed = 1.0f;
 
     //Use this for initialization
 
