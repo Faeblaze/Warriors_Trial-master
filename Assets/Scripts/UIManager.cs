@@ -20,8 +20,8 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        healthBar.sizeDelta = Vector2.Lerp(healthBar.sizeDelta, new Vector2(healthBarBackground.sizeDelta.x * ((float)Mathf.Min(player.health, player.maxHealth) / player.maxHealth), healthBar.sizeDelta.y), Time.deltaTime * 20F);
+        healthBar.sizeDelta = Vector2.Lerp(healthBar.sizeDelta, new Vector2(healthBarBackground.sizeDelta.x * player.health, healthBar.sizeDelta.y), Time.deltaTime * 20F);
 
-        healthText.text = player.health + "/" + player.maxHealth;
+        healthText.text = Mathf.RoundToInt(player.health * player.maxHealth) + "/" + player.maxHealth;
     }
 }

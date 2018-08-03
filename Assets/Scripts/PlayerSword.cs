@@ -29,7 +29,7 @@ public class PlayerSword : MonoBehaviour {
 
             Debug.Log("Herpty derp I have collided");
 
-            enemy.health -= player.damage;
+            enemy.Damage(player.damage);
             //enemy.Health -= Player Damage
         }
     }

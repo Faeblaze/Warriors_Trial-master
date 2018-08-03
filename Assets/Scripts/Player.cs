@@ -7,16 +7,16 @@ using System;
 public class Player : MonoBehaviour
 {
 
-    public int health;
     [NonSerialized]
-    public int maxHealth;
+    public float health = 1F;
+    public int maxHealth = 100;
     public int powerLevel;
     public int damage = 20;
 
 
     public void SetDefaultLevels(int _health, int _powerLevel)
     {
-        health = _health;
+        maxHealth = _health;
         powerLevel = _powerLevel;
     }
 
@@ -34,8 +34,6 @@ public class Player : MonoBehaviour
 
         noOfClicks = 0;
         canClick = true;
-
-        maxHealth = health;
     }
 
     void Update()
@@ -89,21 +87,13 @@ public class Player : MonoBehaviour
             canClick = true;
             noOfClicks = 0;
         }
-                
+
     }
-   /* void OnCollisionEnter (Collision _collision)
+
+    public void Damage(int damage)
     {
-        if (_collision.gameObject.tag == "Weapon")
-        {
-            health -= damage;
-            print("ouch that hurt" + health);
-        }
-        
-    }  */
-
-
-
-
-
-
+        health -= (float)damage / maxHealth;
+        if (health < 0F)
+            health = 0F;
+    }
 }
