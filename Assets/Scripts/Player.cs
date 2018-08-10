@@ -109,7 +109,6 @@ public class Player : MonoBehaviour
         }
         else //if (animator.GetCurrentAnimatorStateInfo(0).IsName("2HAttack"))
         { //Since this is the third and last animation, return to idle          
-            animator.SetTrigger("Idle");
             canClick = false;
             noOfClicks = 0;
             damage = 40;
