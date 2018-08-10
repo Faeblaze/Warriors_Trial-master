@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class HealthBarController : MonoBehaviour
 {
-    private Transform healthBg;
-    private Transform healthBar;
+    private RectTransform healthBg;
+    private RectTransform healthBar;
 
     private Player player;
     private Enemy_Class enemy;
 
     private void Awake()
     {
-        healthBg = transform;
-        healthBar = transform.GetChild(0);
+        healthBg = GetComponent<RectTransform>();
+        healthBar = healthBg.GetChild(0).GetComponent<RectTransform>();
 
         player = (Player)Object.FindObjectOfType(typeof(Player));
-        enemy = transform.parent.GetComponentInChildren<Enemy_Class>();
+        enemy = transform.parent.parent.GetComponentInChildren<Enemy_Class>();
     }
 
     void Update()
     {
-        healthBar.localScale = new Vector3(enemy.health, 1F, 1F);
-        healthBar.localPosition = new Vector3(0F, 0F, 0F);
+        healthBar.sizeDelta = Vector2.Lerp(healthBar.sizeDelta, new Vector2(healthBg.sizeDelta.x * enemy.health, healthBar.sizeDelta.y), Time.deltaTime * 20F);
     }
 
 }

@@ -14,6 +14,10 @@ public class Player : MonoBehaviour
     public int maxHealth = 100;
     public int powerLevel;
     public int damage = 10;
+    float cooldown = 10;
+    bool supercd = true;
+
+
 
     public GameObject UIMenuButton;
     public GameObject UIbutton2;
@@ -42,6 +46,9 @@ public class Player : MonoBehaviour
 
         UIMenuButton.SetActive(false);
         UIbutton2.SetActive(false);
+
+        UIManager.instance.supercd.fillAmount = 0;
+        cooldown = 0;
     }
 
     void Update()
@@ -53,14 +60,32 @@ public class Player : MonoBehaviour
             UIManager.instance.Quit.SetActive(true);
             Time.timeScale = 0;
         }
-            // SceneManager.LoadScene("WK9v3");
+        // SceneManager.LoadScene("Wk10");
         if (Input.GetMouseButtonDown(0)) { ComboStarter(); }
+        if (Input.GetKeyDown(KeyCode.Alpha1) && supercd)
+        {
+            SuperAttack();
+            supercd = false;
+            cooldown = 10;
+        }
+        if (supercd == false)
+        {
+            cooldown -= Time.deltaTime;
+            if(cooldown <= 0)
+            {
+                supercd = true;
+                UIManager.instance.supercd.fillAmount = 1;
+            }
+        }
+
+        UIManager.instance.supercd.fillAmount = cooldown/10;
+        
     }
 
     // RESTART GAME ON BUTTON CLICK IN THE GAME.
     public void RestartGame()
     {
-        SceneManager.LoadScene("Wk9v3");
+        SceneManager.LoadScene(0);
         Time.timeScale = 1;
     }
 
@@ -114,7 +139,15 @@ public class Player : MonoBehaviour
             damage = 40;
         }
 
+        
     }
+
+    void SuperAttack()
+    {
+
+    }
+
+
 
     public void Damage(int damage)
     {

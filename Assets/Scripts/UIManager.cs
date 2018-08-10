@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour {
     public Text counterText;
     public GameObject Win;
     public GameObject Quit;
+    public Image supercd;
 
 	void Awake () {
 
