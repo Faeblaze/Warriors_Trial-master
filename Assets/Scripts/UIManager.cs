@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour {
     public GameObject Win;
     public GameObject Quit;
     public Image supercd;
+    public Image dash;
+    public Image reflect;
 
 	void Awake () {
 

@@ -39,12 +39,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        timer -= Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            LoadNewScene();
-        if (Input.GetKeyDown(KeyCode.R))
-            CycleDifficulty();
+        timer -= Time.deltaTime;                   
     }
     void LoadNewScene()
     {
@@ -71,7 +66,7 @@ public class GameManager : MonoBehaviour
                 difficulty = Difficulty.EASY;
                 break;
             default:
-                difficulty = Difficulty.EASY;
+                difficulty = Difficulty.MEDIUM;
                 break;
 
         }

@@ -15,10 +15,12 @@ public class Player : MonoBehaviour
     public int powerLevel;
     public int damage = 10;
     float cooldown = 10;
+    float dashcd = 10;
+    float barriorcd = 10;
     bool supercd = true;
-
-
-
+    bool dash = true;
+    bool reflect = true;
+        
     public GameObject UIMenuButton;
     public GameObject UIbutton2;
 
@@ -48,6 +50,10 @@ public class Player : MonoBehaviour
         UIbutton2.SetActive(false);
 
         UIManager.instance.supercd.fillAmount = 0;
+        cooldown = 0;
+        UIManager.instance.dash.fillAmount = 0;
+        cooldown = 0;
+        UIManager.instance.reflect.fillAmount = 0;
         cooldown = 0;
     }
 
@@ -79,7 +85,43 @@ public class Player : MonoBehaviour
         }
 
         UIManager.instance.supercd.fillAmount = cooldown/10;
-        
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && dash)
+        {
+            Evade();
+            dash = false;
+            dashcd = 10;
+        }
+        if (dash == false)
+        {
+            dashcd -= Time.deltaTime;
+            if (dashcd <= 0)
+            {
+                dash = true;
+                UIManager.instance.dash.fillAmount = 1;
+            }
+        }
+
+        UIManager.instance.dash.fillAmount = dashcd / 10;
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && reflect)
+        {
+            DestructiveBarrier();
+            reflect = false;
+            barriorcd = 10;
+        }
+        if (reflect == false)
+        {
+            barriorcd -= Time.deltaTime;
+            if (barriorcd <= 0)
+            {
+                reflect = true;
+                UIManager.instance.reflect.fillAmount = 1;
+            }
+        }
+
+        UIManager.instance.reflect.fillAmount = barriorcd / 10;
+
     }
 
     // RESTART GAME ON BUTTON CLICK IN THE GAME.
@@ -144,9 +186,17 @@ public class Player : MonoBehaviour
 
     void SuperAttack()
     {
-
+        animator.SetTrigger("SuperAttack");
     }
 
+    void Evade()
+    {
+
+    }
+    void DestructiveBarrier()
+    {
+
+    }
 
 
     public void Damage(int damage)
