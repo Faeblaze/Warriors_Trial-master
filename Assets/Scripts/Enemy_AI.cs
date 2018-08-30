@@ -20,11 +20,9 @@ public class Enemy_AI : MonoBehaviour
     void Update()
     {
         /* Look at Player*/
-        transform.rotation = Quaternion.Slerp(transform.rotation
-                                              , Quaternion.LookRotation(new Vector3(tr_Player.position.x, transform.position.y, tr_Player.position.z) - transform.position)
-                                              , f_RotSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new  Vector3(tr_Player.position.x, transform.position.y, tr_Player.position.z) - transform.position), f_RotSpeed * Time.deltaTime);
 
-        /* Move at Player*/
+        /* Move at Player*/ 
         transform.position += transform.forward * f_MoveSpeed * Time.deltaTime;
     }
 
