@@ -11,18 +11,25 @@ public class UIManager : MonoBehaviour {
 
     private Player player;
     private SpawnManager Sawning;
-    public int enemiesKilled;
 
     public RectTransform healthBarBackground;
     public RectTransform healthBar;
+    public RectTransform xpBarBackground;
+    public RectTransform xpBar;
+
+    public Text levelText;
 
     private Text healthText;
+    private Text xpText;
     public Text counterText;
-    public GameObject Win;
-    public GameObject Quit;
-    public Image supercd;
+    public GameObject WinScreen;
+    public GameObject LoseScreen;
+
+    public Image super;
     public Image dash;
     public Image reflect;
+
+    public bool requiresCursor = false;
 
 	void Awake () {
 
@@ -31,25 +38,50 @@ public class UIManager : MonoBehaviour {
         player = (Player)FindObjectOfType(typeof(Player));
 
         healthText = healthBarBackground.GetComponentInChildren<Text>();
+        xpText = xpBarBackground.GetComponentInChildren<Text>();
 
-        Quit.SetActive(false);
-        Win.SetActive(false);
-        enemiesKilled = 0;
+        LoseScreen.SetActive(false);
+        WinScreen.SetActive(false);
         Time.timeScale = 1;
+        requiresCursor = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        Cursor.lockState = requiresCursor ? CursorLockMode.None : CursorLockMode.Locked;
+
         healthBar.sizeDelta = Vector2.Lerp(healthBar.sizeDelta, new Vector2(healthBarBackground.sizeDelta.x * player.health, healthBar.sizeDelta.y), Time.deltaTime * 20F);
+        healthText.text = Mathf.RoundToInt(player.health * player.MaxHealth) + "/" + player.MaxHealth;
 
-        healthText.text = Mathf.RoundToInt(player.health * player.maxHealth) + "/" + player.maxHealth;
+        xpBar.sizeDelta = Vector2.Lerp(xpBar.sizeDelta, new Vector2(xpBarBackground.sizeDelta.x * player.xp / player.xpPerLevel, xpBar.sizeDelta.y), Time.deltaTime * 20F);
+        xpText.text = player.xp + "/" + player.xpPerLevel;
 
-        counterText.text = "Enemies Killed: " + enemiesKilled;
+        levelText.text = (player.level + 1).ToString();
 
-        if (enemiesKilled >= 20)
+        counterText.text = "Enemies Killed: " + GameManager.instance.enemiesKilled;
+        switch (GameManager.instance.difficulty)
         {
-            Win.SetActive(true);
-            Quit.SetActive(true);        
+            case Difficulty.EASY:
+                counterText.color = Color.green;
+                break;
+            case Difficulty.MEDIUM:
+                counterText.color = Color.yellow;
+                break;
+            case Difficulty.HARD:
+                counterText.color = Color.red;
+                break;
+            case Difficulty.HELL:
+                counterText.color = Color.magenta;
+                break;
+            case Difficulty.GODMODE:
+                counterText.color = Color.black;
+                break;
+        }
+
+        if (GameManager.instance.conditionsMet >= GameManager.instance.conditionsCount)
+        {
+            requiresCursor = true;
+            WinScreen.SetActive(true);  
             Time.timeScale = 0;
         }      
     }

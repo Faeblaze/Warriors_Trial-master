@@ -1,101 +1,146 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy_Class : MonoBehaviour
 {
-
+    private Player player;
     public string enemyName;
     [NonSerialized]
     public float health = 1F;
-    public int maxHealth;
-    public int powerLevel;
     public float height;
     public float weight;
     public char sex;
     public float mySpeed;
 
-    public float damageSpeed = 2F;
+    public int grantXp;
 
-    private float damageCooldown;
+    public bool isVictoryCondition = false;
+    public bool broadcastExistence = false;
+    public bool uniformDifficulty = false;
 
-    public void SetDefaultLevels(int _health, int _powerLevel)
+    public EnemyStats[] enemyStats;
+
+    public int MaxHealth
     {
-        maxHealth = _health;
-        powerLevel = _powerLevel;
+        get
+        {
+            if (uniformDifficulty)
+                return enemyStats[0].maxHealth;
+
+            return enemyStats[(int)GameManager.instance.difficulty].maxHealth;
+        }
     }
 
-    void OnDifficultyChange(Difficulty diff)
+    public int Damage
     {
-        switch (diff)
+        get
         {
-            case Difficulty.EASY:
-                maxHealth = 10;
-                powerLevel = 100;
-                GetComponent<Renderer>().material.color = Color.green;
-                break;
-            case Difficulty.MEDIUM:
-                maxHealth = 150;
-                powerLevel = 250;
-                GetComponent<Renderer>().material.color = Color.blue;
-                break;
-            case Difficulty.HARD:
-                maxHealth = 500;
-                powerLevel = 1000;
-                GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-            case Difficulty.HELL:
-                maxHealth = 1500;
-                powerLevel = 3000;
-                GetComponent<Renderer>().material.color = Color.red;
-                break;
-            case Difficulty.GODMODE:
-                maxHealth = 4000;
-                powerLevel = 9000;
-                GetComponent<Renderer>().material.color = Color.black;
-                break;
+            if (uniformDifficulty)
+                return enemyStats[0].damage;
 
-            default:
-                maxHealth = 10;
-                powerLevel = 100;
-                break;
-
+            return enemyStats[(int)GameManager.instance.difficulty].damage;
         }
+    }
+
+    public float DamageSpeed
+    {
+        get
+        {
+            if (uniformDifficulty)
+                return enemyStats[0].damageSpeed;
+
+            return enemyStats[(int)GameManager.instance.difficulty].damageSpeed;
+        }
+    }
+
+    private Enemy_AI AI;
+
+    private void Start()
+    {
+        AI = GetComponent<Enemy_AI>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+        if (broadcastExistence)
+            GameManager.instance.conditionsCount++;
     }
 
     // Gets called every frame
     void Update()
     {
         if (health <= 0)
-            Destroy(gameObject);
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        damageCooldown += Time.deltaTime;
-        
-        if(damageCooldown >= damageSpeed)
         {
-            damageCooldown = 0F;
-
-            if (other.CompareTag("Player"))
-            {
-                other.transform.GetComponent<Player>().Damage(5);
-            }
+            Destroy(gameObject);
+            player.GrantXP(grantXp);
         }
     }
 
-    public void Damage(int damage)
+    public void TakeDamage(int damage)
     {
-        health -= (float)damage / maxHealth;
+        health -= (float)damage / MaxHealth;
+        if(AI)
+            AI.animator.SetTrigger("Hit");
 
         if (health < 0F)
         {
             health = 0F;
-            UIManager.instance.enemiesKilled++;
+
+            if (isVictoryCondition)
+                GameManager.instance.conditionsMet++;
+            else
+            {
+                GameManager.instance.enemiesKilled++;
+                if (GameManager.instance.enemiesKilled % GameManager.instance.difficultyIncreaseRate == 0)
+                    GameManager.instance.CycleDifficulty();
+            }
             //Debug.Log(UIManager.instance.enemiesKilled);
         }
     }
 
+    /**
+     * Gets list of difficulties
+     * If the enemy stats array is null, create new array of size of number of difficulties
+     * If the enemy stats array is larger or smaller than number of difficulties, resize
+     * Go through each enemy stats instance and set the difficulty value
+     */
+    private void OnValidate()
+    {
+        if (uniformDifficulty)
+        {
+            if (enemyStats == null)
+                enemyStats = new EnemyStats[1];
+
+            if (enemyStats.Length != 1)
+                Array.Resize(ref enemyStats, 1);
+
+            if (enemyStats[0] == null)
+                enemyStats[0] = new EnemyStats();
+            enemyStats[0].difficulty = Difficulty.GODMODE;
+
+            return;
+        }
+
+        Difficulty[] difficulties = (Difficulty[])Enum.GetValues(typeof(Difficulty));
+        if (enemyStats == null)
+            enemyStats = new EnemyStats[difficulties.Length];
+
+        if (enemyStats.Length != difficulties.Length)
+            Array.Resize(ref enemyStats, difficulties.Length);
+
+        for(int i = 0; i < difficulties.Length; i++)
+        {
+            if (enemyStats[i] == null)
+                enemyStats[i] = new EnemyStats();
+            enemyStats[i].difficulty = difficulties[i];
+        }
+    }
+
+    [Serializable]
+    public class EnemyStats
+    {
+        public Difficulty difficulty;
+        public int maxHealth;
+        public int damage;
+        public float damageSpeed;
+    }
 }

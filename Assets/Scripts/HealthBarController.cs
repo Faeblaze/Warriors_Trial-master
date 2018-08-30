@@ -7,7 +7,6 @@ public class HealthBarController : MonoBehaviour
     private RectTransform healthBg;
     private RectTransform healthBar;
 
-    private Player player;
     private Enemy_Class enemy;
 
     private void Awake()
@@ -15,7 +14,6 @@ public class HealthBarController : MonoBehaviour
         healthBg = GetComponent<RectTransform>();
         healthBar = healthBg.GetChild(0).GetComponent<RectTransform>();
 
-        player = (Player)Object.FindObjectOfType(typeof(Player));
         enemy = transform.parent.parent.GetComponentInChildren<Enemy_Class>();
     }
 

@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum Gamestate
 {
@@ -21,54 +20,49 @@ public enum Difficulty
 
 public class GameManager : MonoBehaviour
 {
+    // This will be inherited by outside scripts.
+    public static GameManager instance;
+
     public int score = 0;
     public int lives;
     public float timer = 120;
 
+    public int difficultyIncreaseRate = 10;
+
+    public int conditionsMet;
+    public int conditionsCount;
+    public int enemiesKilled = 0;
+
     public Difficulty difficulty;
     public Gamestate gameState;
 
+    private void Awake()
+    {
+        instance = this;
+
+        conditionsMet = 0;
+        conditionsCount = 0;
+    }
 
     // Use this for initialization
     void Start()
     {
-        difficulty = Difficulty.MEDIUM;
+        difficulty = Difficulty.EASY;
         gameState = Gamestate.TITLE;
-
     }
 
     void Update()
     {
         timer -= Time.deltaTime;                   
     }
+
     void LoadNewScene()
     {
         SceneManager.LoadScene("SceneTwo");
     }
 
-    void CycleDifficulty()
+    public void CycleDifficulty()
     {
-        switch (difficulty)
-        {
-            case Difficulty.EASY:
-                difficulty = Difficulty.MEDIUM;
-                break;
-            case Difficulty.MEDIUM:
-                difficulty = Difficulty.HARD;
-                break;
-            case Difficulty.HARD:
-                difficulty = Difficulty.HELL;
-                break;
-            case Difficulty.HELL:
-                difficulty = Difficulty.GODMODE;
-                break;
-            case Difficulty.GODMODE:
-                difficulty = Difficulty.EASY;
-                break;
-            default:
-                difficulty = Difficulty.MEDIUM;
-                break;
-
-        }
+        difficulty = (Difficulty)(Math.Min(Enum.GetValues(typeof(Difficulty)).Length - 1, (int)difficulty + 1));
     }
 }

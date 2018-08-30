@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 114894164694733736}
   m_Layer: 0
   m_Name: Cyclops
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -590,6 +590,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4954142256442638}
+  - component: {fileID: 65857005476709820}
+  - component: {fileID: 114867850510695088}
   m_Layer: 0
   m_Name: weapon
   m_TagString: Untagged
@@ -1186,7 +1188,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1381054515724110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.74}
+  m_LocalPosition: {x: -0.38711548, y: 0, z: -1.8057556}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4335479522658474}
@@ -1840,6 +1842,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 3, z: 2}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!65 &65857005476709820
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537004150944044}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: -0.75, y: 0, z: 0}
 --- !u!95 &95149352039393740
 Animator:
   serializedVersion: 3
@@ -1849,7 +1863,7 @@ Animator:
   m_GameObject: {fileID: 1381054515724110}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9d693f089b09f2e4b9dd4789d5ec3f55, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb1c718b6697e2c4d95379186f926ae4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1870,13 +1884,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyName: 
-  maxHealth: 150
-  powerLevel: 0
   height: 0
   weight: 0
   sex: 0
   mySpeed: 3
-  damageSpeed: 2
+  grantXp: 50
+  isVictoryCondition: 0
+  broadcastExistence: 0
+  uniformDifficulty: 0
+  enemyStats:
+  - difficulty: 0
+    maxHealth: 200
+    damage: 40
+    damageSpeed: 3
+  - difficulty: 1
+    maxHealth: 350
+    damage: 50
+    damageSpeed: 2.8
+  - difficulty: 2
+    maxHealth: 450
+    damage: 60
+    damageSpeed: 2.7
+  - difficulty: 3
+    maxHealth: 600
+    damage: 80
+    damageSpeed: 2.5
+  - difficulty: 4
+    maxHealth: 1000
+    damage: 100
+    damageSpeed: 2
 --- !u!114 &114253516594936000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1979,6 +2015,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114867850510695088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1537004150944044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c657bf445d990449b76c547842fe36b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AI: {fileID: 114894164694733736}
 --- !u!114 &114894164694733736
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1992,6 +2040,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   f_RotSpeed: 2.5
   f_MoveSpeed: 2.5
+  range: 12
+  animator: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!136 &136462670359319502
 CapsuleCollider:
   m_ObjectHideFlags: 1

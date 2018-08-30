@@ -12,17 +12,25 @@ public class SpawnManager : MonoBehaviour {
     public int startWait;
     public bool stop;
 
+    private Enemy_Class portalInst;
+
     int randEnemy;
         
 	// Use this for initialization
 	void Start ()
     {
+        portalInst = GetComponentInChildren<Enemy_Class>();
         StartCoroutine(waitSpawner());		
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        if(!portalInst)
+        {
+            StopAllCoroutines();
+            Destroy(gameObject);
+        }
         spawnWait = Random.Range(spawnLeastWait, spawnMostWait);		
 	}
 
@@ -32,7 +40,7 @@ public class SpawnManager : MonoBehaviour {
         
         while (!stop)
         {
-            randEnemy = Random.Range(0, 2);
+            randEnemy = Random.Range(0, Enemies.Length);
             Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), 1, Random.Range(-spawnValues.z, spawnValues.z));
             Instantiate(Enemies[randEnemy], spawnPosition + transform.TransformPoint(0, 0, 0), gameObject.transform.rotation);
             yield return new WaitForSeconds(spawnWait);
@@ -42,8 +50,6 @@ public class SpawnManager : MonoBehaviour {
     // adds the visual box around the area in which enemies can spawn
     private void OnDrawGizmos()
     {
-
-
         Gizmos.color = Color.magenta;
 
         Gizmos.DrawWireCube(transform.position - new Vector3(0, transform.position.y - 1, 0), spawnValues - new Vector3(0, spawnValues.y, 0));

@@ -10,7 +10,5 @@ public class CameraRig : MonoBehaviour {
         float axis = Input.GetAxis("Mouse X");
 
         transform.Rotate(Vector3.up * axis * sensitivity);
-
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }
